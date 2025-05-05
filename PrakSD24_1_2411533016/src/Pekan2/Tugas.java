@@ -2,7 +2,7 @@ package Pekan2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Tugas_Praktikum {
+public class Tugas {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		Parkiran parkiran = new Parkiran();
@@ -113,7 +113,3 @@ class Parkiran {
 		System.out.println("Mobil dengan plat " + platNomor + " tidak ada di parkiran.");
 	}
 }	
-	
-	
-
-
