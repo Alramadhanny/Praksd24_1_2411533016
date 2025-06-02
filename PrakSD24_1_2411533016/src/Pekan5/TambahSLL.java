@@ -45,8 +45,11 @@ public class TambahSLL {
 				 headNode = headNode.next;
 			 }
 			 if (position != 1)
-		System.out.print("Posisi di luar jangkauan");   }
-		return head;   }
+				 System.out.print("Posisi di luar jangkauan");   
+		 	 return head;   
+		 	 }
+		}
+	 
 	public static void printList (NodeSLL head) {
 		NodeSLL curr = head;
 	  while (curr.next != null) {
