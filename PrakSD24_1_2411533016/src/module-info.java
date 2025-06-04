@@ -6,4 +6,5 @@
  *
  */
 module PrakSD24_1_2411533016 {
+	requires java.desktop;
 }

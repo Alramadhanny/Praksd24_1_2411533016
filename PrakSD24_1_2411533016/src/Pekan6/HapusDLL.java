@@ -62,6 +62,10 @@ public static void printList(NodeDLL head) {
 }
 
 public static void main(String[] args) {
+	
+	System.out.println("Nama: Abdullah Al Ramadhani");
+	System.out.println("Nim: 2411533016");
+	
 	NodeDLL head = new NodeDLL(1);
 	head.next = new NodeDLL(2);
 	head.next.prev = head;

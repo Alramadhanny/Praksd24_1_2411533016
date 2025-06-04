@@ -32,6 +32,10 @@ public class PenelusuranDLL {
 	}
 
 	public static void main(String[] args) {
+		
+		System.out.println("Nama: Abdullah Al Ramadhani");
+		System.out.println("Nim: 2411533016");
+		
 		//cetak DLL
 		NodeDLL head = new NodeDLL(1);
 		NodeDLL second = new NodeDLL(2);
