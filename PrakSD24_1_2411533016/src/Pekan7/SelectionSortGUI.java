@@ -1,23 +1,7 @@
 package Pekan7;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.Font;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import javax.swing.*;
 
 public class SelectionSortGUI extends JFrame {
 
@@ -28,152 +12,133 @@ public class SelectionSortGUI extends JFrame {
 	private JTextField inputField;
 	private JPanel panelArray;
 	private JTextArea stepArea;
-	
-	private int i = 1, j;
-	private boolean sorting = false;
-	private int stepCount = 1;
 	private int minIndex;
 
 
-	/**
-	 * Launch the application.
-	 */
+	private int i = 1, j;
+	private boolean sorting = false;
+	private int stepCount = 1;
+
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SelectionSortGUI frame = new SelectionSortGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		EventQueue.invokeLater(() -> {
+			try {
+				SelectionSortGUI frame = new SelectionSortGUI();
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public SelectionSortGUI() {
-		setTitle("Selection Sort Langkah per Langkah");
-	    setSize(750, 400);
-	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setLocationRelativeTo(null);
-	    setLayout(new BorderLayout());
+		setTitle("Selection Sort Langkah per langkah");
+		setSize(750, 400);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setLayout(new BorderLayout());
 
-	    // Panel input
-	    JPanel inputPanel = new JPanel(new FlowLayout());
-	    inputField = new JTextField(30);
-	    setButton = new JButton("Set Array");
-	    inputPanel.add(new JLabel("Masukkan angka (pisahkan dengan koma):"));
-	    inputPanel.add(inputField);
-	    inputPanel.add(setButton);
+		JPanel textPanel = new JPanel(new FlowLayout());
+		inputField = new JTextField(30);
+		setButton = new JButton("Set array");
+		textPanel.add(new JLabel("Input array (pisahkan dengan koma):"));
+		textPanel.add(inputField);
+		textPanel.add(setButton);
 
-	    // Panel array visual
-	    panelArray = new JPanel();
-	    panelArray.setLayout(new FlowLayout());
+		panelArray = new JPanel();
+		panelArray.setLayout(new FlowLayout());
 
-	    // Panel kontrol
-	    JPanel controlPanel = new JPanel();
-	    stepButton = new JButton("Langkah Selanjutnya");
-	    resetButton = new JButton("Reset");
-	    stepButton.setEnabled(false);
-	    controlPanel.add(stepButton);
-	    controlPanel.add(resetButton);
-	    
-	    // Area teks untuk log langkah-langkah
-	    stepArea = new JTextArea(8, 60);
-	    stepArea.setEditable(false);
-	    stepArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
-	    JScrollPane scrollPane = new JScrollPane(stepArea);
-	    
-	    // Tambahkan panel ke frame
-	    add(inputPanel, BorderLayout.NORTH);
-	    add(panelArray, BorderLayout.CENTER);
-	    add(controlPanel, BorderLayout.SOUTH);
-	    add(scrollPane, BorderLayout.EAST);
-	    
-	    // Event set Array
-	    setButton.addActionListener(e -> setArrayFromInput());
-	    
-	    // Event Langkah Selanjutnya
-	    stepButton.addActionListener(e -> performStep());
-	    
-	    // Event Reset
-	    resetButton.addActionListener(e -> reset());
+		JPanel controlPanel = new JPanel();
+		stepButton = new JButton("Langkah selanjutnya");
+		resetButton = new JButton("Reset");
+		stepButton.setEnabled(false);
+		controlPanel.add(stepButton);
+		controlPanel.add(resetButton);
+
+		stepArea = new JTextArea(8, 60);
+		stepArea.setEditable(false);
+		stepArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		JScrollPane scrollPane = new JScrollPane(stepArea);
+
+		add(textPanel, BorderLayout.NORTH);
+		add(panelArray, BorderLayout.CENTER);
+		add(controlPanel, BorderLayout.SOUTH);
+		add(scrollPane, BorderLayout.EAST);
+
+		setButton.addActionListener(e -> setArrayFromInput());
+		stepButton.addActionListener(e -> performStep());
+		resetButton.addActionListener(e -> reset());
 	}
+
 	private void setArrayFromInput() {
-		 String text = inputField.getText().trim();
-		    if (text.isEmpty()) return;
+		String text = inputField.getText().trim();
+		if (text.isEmpty()) return;
+		String[] parts = text.split(",");
+		array = new int[parts.length];
 
-		    String[] parts = text.split(",");
-		    array = new int[parts.length];
+		try {
+			for (int k = 0; k < parts.length; k++) {
+				array[k] = Integer.parseInt(parts[k].trim());
+			}
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(this, 
+					"Masukkan hanya angka yang dipisahkan dengan koma!", "error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 
-		    try {
-		        for (int k = 0; k < parts.length; k++) {
-		            array[k] = Integer.parseInt(parts[k].trim());
-		        }
-		    } catch (NumberFormatException e) {
-		        JOptionPane.showMessageDialog(this, 
-		            "Masukkan hanya angka yang dipisahkan dengan koma!", 
-		            "Error", 
-		            JOptionPane.ERROR_MESSAGE);
-		        return;
-		    }
+		i = 0;
+		j = i + 1;
+		stepCount = 1;
+		minIndex = i;
+		sorting = true;
+		stepButton.setEnabled(true);
+		stepArea.setText("");
+		panelArray.removeAll();
+		labelArray = new JLabel[array.length];
 
-		    // Tambahan variabel untuk proses sorting
-		    i = 0;
-		    j = i + 1;
-		    stepCount = 1;
-		    minIndex = i;
-		    sorting = true;
-		    
-		    stepButton.setEnabled(true);
-		    stepArea.setText("");
-		    panelArray.removeAll();
-		    labelArray = new JLabel[array.length];
-		    
-		    for (int k = 0; k < array.length; k++) {
-		    	labelArray[k] = new JLabel(String.valueOf(array[k]));
-		        labelArray[k].setFont(new Font("Arial", Font.BOLD, 24));
-		        labelArray[k].setOpaque(true);
-		        labelArray[k].setBackground(Color.WHITE);
-		        labelArray[k].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		        labelArray[k].setPreferredSize(new Dimension(50, 50));
-		        labelArray[k].setHorizontalAlignment(SwingConstants.CENTER);
-		        panelArray.add(labelArray[k]);
-		    }
+		for (int k = 0; k < array.length; k++) {
+			labelArray[k] = new JLabel(String.valueOf(array[k]));
+			labelArray[k].setFont(new Font("Arial", Font.BOLD, 24));
+            labelArray[k].setOpaque(true);
+            labelArray[k].setBackground(Color.WHITE);
+			labelArray[k].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			labelArray[k].setPreferredSize(new Dimension(50, 50));
+			labelArray[k].setHorizontalAlignment(SwingConstants.CENTER);
+			panelArray.add(labelArray[k]);
+		}
 
-		    panelArray.revalidate();
-		    panelArray.repaint();
-		    highlightMinIndex();
+		panelArray.revalidate();
+		panelArray.repaint();
+        highlightMinIndex();
 	}
-	private void performStep() {
-		if (i < array.length - 1 && sorting) {
+
+    private void performStep() {
+        if (i < array.length - 1 && sorting) {
             StringBuilder stepLog = new StringBuilder();
             if (j == i + 1) {
                 minIndex = i;
             }
 
-            // Cari index minimum
             if (j < array.length) {
                 if (array[j] < array[minIndex]) {
                     minIndex = j;
                 }
                 j++;
             } 
-            // Jika sudah selesai membandingkan
+
             if (j == array.length) {
                 if (minIndex != i) {
                     int temp = array[i];
                     array[i] = array[minIndex];
                     array[minIndex] = temp;
-                    stepLog.append("Langkah ").append(stepCount).append(": Menukar elemen ke- ").
-                    	append(i).append(" (").append(array[minIndex]).append(")").append(" dengan elemen ke- ").
-                    	append(minIndex).append(" (").append(array[i]).append(")\n");
+                    stepLog.append("Langkah ").append(stepCount).append(": Menukar elemen ke- ")
+                    .append(i).append(" (").append(array[minIndex]).append(")")
+                    .append(" dengan elemen ke- ").append(minIndex)
+                    .append(" (").append(array[i]).append(")\n");
                 } else {
-                    stepLog.append("Langkah ").append(stepCount).append(": Tidak ada pertukaran (elemen ke- ").
-                    	append(i).append(" sudah minimum)\n");
+                    stepLog.append("Langkah ").append(stepCount)
+                    .append(": Tidak ada pertukaran (elemen ke- ")
+                    .append(i).append(" sudah minimum)\n");
                 }
 				stepLog.append("hasil: ").append(arrayToString(array)).append("\n\n");
 				stepArea.append(stepLog.toString());
@@ -188,30 +153,31 @@ public class SelectionSortGUI extends JFrame {
 			if (i >= array.length - 1) {
 				sorting = false;
 				stepButton.setEnabled(false);
-				resetHighlight();	
+				resetHighlights();	
 				JOptionPane.showMessageDialog(this, "Sorting selesai!");
 			}
-		}    
- }
+		} 
+        
+    }
+
 	private void highlightMinIndex() {
-		resetHighlight();
+		resetHighlights();
 		if (minIndex >= 0 && minIndex < labelArray.length) {
 			labelArray[minIndex].setBackground(Color.YELLOW);
 		}
 	}
-	
-	private void resetHighlight() {
+
+	private void resetHighlights() {
 		for (JLabel label : labelArray) {
 			label.setBackground(Color.WHITE);
 		}
 	}
-	
-	private void updateLabels() {
+		private void updateLabels() {
 		for (int k = 0; k < array.length; k++) {
 			labelArray[k].setText(String.valueOf(array[k]));
 		}
 	}
-	
+
 	private void reset() {
 		inputField.setText("");
 		panelArray.removeAll();
@@ -220,7 +186,8 @@ public class SelectionSortGUI extends JFrame {
 		stepArea.setText("");
 		stepButton.setEnabled(false);
 		sorting = false;
-		i = 1;
+		i = 0;
+		j = 1;
 		stepCount = 1;
 	}
 
