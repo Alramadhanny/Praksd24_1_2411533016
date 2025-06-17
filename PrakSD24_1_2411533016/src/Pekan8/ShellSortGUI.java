@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-public class ShellGUI extends JFrame {
+public class ShellSortGUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private int[] array;
     private JLabel[] labelArray;
@@ -34,7 +34,7 @@ public class ShellGUI extends JFrame {
     private int gap;
     private int temp;
 
-	public ShellGUI() {
+	public ShellSortGUI() {
 	    setTitle("Shell Sort Langkah per Langkah");
 	    setSize(750, 400);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,9 +96,7 @@ public class ShellGUI extends JFrame {
 	    } catch (NumberFormatException e) {
 	        JOptionPane.showMessageDialog(this, "Masukkan hanya "
 	            + "angka yang dipisahkan koma!", "Error", JOptionPane.ERROR_MESSAGE);
-	        return;
-	    }
-
+	        return;				}
 	    gap = array.length / 2;
 	    i = gap;
 	    sorting = true;
@@ -128,16 +126,12 @@ public class ShellGUI extends JFrame {
 	        stepButton.setEnabled(false);
 	        JOptionPane.showMessageDialog(this, "Shell Sort selesai!");
 	        stepArea.append("Hasil akhir: " + java.util.Arrays.toString(array) + "\n\n");
-	        return;
-	    }
-
+	        return;				  }
 	    if (i < array.length) {
 	        if (!isSwapping) {
 	            temp = array[i];
 	            j = i;
-	            isSwapping = true;
-	        }
-
+	            isSwapping = true;			}
 	        if (j >= gap && array[j - gap] > temp) {
 	            array[j] = array[j - gap]; // geser ke kanan
 	            labelArray[j].setBackground(Color.GREEN);
@@ -150,8 +144,7 @@ public class ShellGUI extends JFrame {
 	            updateLabels();
 	            logStep("Tempatkan " + temp + " di posisi " + j);
 	            i++;
-	            isSwapping = false;
-	        }
+	            isSwapping = false;			}
 	    } else {
 	        gap /= 2;
 	        i = gap;
@@ -191,7 +184,7 @@ public class ShellGUI extends JFrame {
 
 	public static void main(String[] args) {
 	    SwingUtilities.invokeLater(() -> {
-	        ShellGUI gui = new ShellGUI();
+	        ShellSortGUI gui = new ShellSortGUI();
 	        gui.setVisible(true);
 	    });
 	}

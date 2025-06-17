@@ -152,11 +152,7 @@ public class QuickSortGUI extends JFrame {
     	    JOptionPane.showMessageDialog(this, "Quick Sort selesai!");
     	    return;
     	}
-
-
-
         resetHighlights();
-
         if (!partitioning) {
             int[] range = stack.pop();
             low = range[0];
@@ -170,7 +166,7 @@ public class QuickSortGUI extends JFrame {
             highlightPivot(high);
             return;
         }
-
+        
         if (j < high) {
             highlightCompare(j, high);
             if (array[j] < pivot) {
@@ -189,12 +185,10 @@ public class QuickSortGUI extends JFrame {
                 return;
             }
         }
-
         if (i + 1 != high) {
             swap(i + 1, high);
             stepArea.append("Langkah " + stepCount++ + ": Pindahkan pivot ke posisi tengah\n");
         }
-
         updateLabels();
         int p = i + 1;
         partitioning = false;
@@ -202,9 +196,6 @@ public class QuickSortGUI extends JFrame {
         if (p - 1 > low) stack.push(new int[]{low, p - 1});
         if (p + 1 < high) stack.push(new int[]{p + 1, high});
     }
-
-    
-
 
     private void highlightPivot(int index) {
         labelArray[index].setBackground(Color.YELLOW);

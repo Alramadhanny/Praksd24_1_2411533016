@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class BubbleSortGUI extends JFrame {
+	
     private static final long serialVersionUID = 1L;
     private int[] array;
     private JLabel[] labelArray;
@@ -46,6 +47,7 @@ public class BubbleSortGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public BubbleSortGUI() {
 	    setTitle("Bubble Sort Langkah per Langkah");
 	    setSize(750, 400);
@@ -95,6 +97,7 @@ public class BubbleSortGUI extends JFrame {
 	    resetButton.addActionListener(e -> reset());
 
 	}
+	
 	private void setArrayFromInput() {
 	    String text = inputField.getText().trim();
 	    if (text.isEmpty()) return;
